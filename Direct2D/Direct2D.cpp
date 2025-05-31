@@ -2,6 +2,7 @@
 //
 
 #include "framework.h"
+#include "DemoApp.h"
 #include "Direct2D.h"
 
 #define MAX_LOADSTRING 100
@@ -10,6 +11,7 @@
 HINSTANCE hInst;                                // 現在のインターフェイス
 WCHAR szTitle[MAX_LOADSTRING];                  // タイトル バーのテキスト
 WCHAR szWindowClass[MAX_LOADSTRING];            // メイン ウィンドウ クラス名
+DemoApp g_app;
 
 // このコード モジュールに含まれる関数の宣言を転送します:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -26,6 +28,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: ここにコードを挿入してください。
+    HRESULT hr = g_app.CreateDeviceIndependentResources();
+    if (FAILED(hr))
+    {
+        return FALSE;
+    }
 
     // グローバル文字列を初期化する
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -125,6 +132,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_SIZE:
+    {
+        UINT width = LOWORD(lParam);
+        UINT height = HIWORD(lParam);
+        g_app.OnResize(width, height);
+    }
+    break;
+
+    case WM_DISPLAYCHANGE:
+        InvalidateRect(hWnd, NULL, FALSE);
+        break;
+
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -148,6 +167,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: HDC を使用する描画コードをここに追加してください...
             EndPaint(hWnd, &ps);
+
+            g_app.OnRender(hWnd);
         }
         break;
     case WM_DESTROY:
