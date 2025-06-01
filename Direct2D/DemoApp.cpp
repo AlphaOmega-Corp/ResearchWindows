@@ -11,10 +11,8 @@ DemoApp::DemoApp() :
 
 DemoApp::~DemoApp()
 {
-    SafeRelease(&m_pDirect2dFactory);
-    SafeRelease(&m_pRenderTarget);
-    SafeRelease(&m_pLightSlateGrayBrush);
-    SafeRelease(&m_pCornflowerBlueBrush);
+    DiscardDeviceResources();
+    DiscardDeviceIndependentResources();
 }
 
 HRESULT DemoApp::CreateDeviceIndependentResources()
@@ -66,6 +64,11 @@ HRESULT DemoApp::CreateDeviceResources(HWND hWnd)
     }
 
     return hr;
+}
+
+void DemoApp::DiscardDeviceIndependentResources()
+{
+    SafeRelease(&m_pDirect2dFactory);
 }
 
 void DemoApp::DiscardDeviceResources()

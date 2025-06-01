@@ -53,9 +53,12 @@ private:
     // Initialize device-dependent resources.
     HRESULT CreateDeviceResources(HWND hWnd);
 
-    // Release device-dependent resource.
-    void DiscardDeviceResources();
 public:
+    void DiscardDeviceIndependentResources();
+
+    // Release device-dependent resource.
+
+    void DiscardDeviceResources();
     // Draw content.
     HRESULT OnRender(HWND hWnd);
 

@@ -58,6 +58,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
     }
+    // リソースを破棄
+    g_app.DiscardDeviceResources();
+    // Direct2Dを破棄
+    g_app.DiscardDeviceIndependentResources();
 
     return (int) msg.wParam;
 }
