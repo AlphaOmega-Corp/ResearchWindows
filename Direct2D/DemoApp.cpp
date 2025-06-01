@@ -49,14 +49,6 @@ HRESULT DemoApp::CreateDeviceResources(HWND hWnd)
         );
         if (SUCCEEDED(hr))
         {
-            // Create a black brush.
-            hr = m_pRenderTarget->CreateSolidColorBrush(
-                D2D1::ColorF(D2D1::ColorF::Black ),
-                &m_pLightSlateGrayBrush
-            );
-        }
-        if (SUCCEEDED(hr))
-        {
             // Create a gray brush.
             hr = m_pRenderTarget->CreateSolidColorBrush(
                 D2D1::ColorF(D2D1::ColorF::LightSlateGray),
