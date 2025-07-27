@@ -170,9 +170,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: HDC を使用する描画コードをここに追加してください...
-            EndPaint(hWnd, &ps);
-
             g_app.OnRender(hWnd);
+            EndPaint(hWnd, &ps);
         }
         break;
     case WM_DESTROY:
