@@ -1,4 +1,5 @@
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -24,8 +25,8 @@ namespace ColorReductionTool
                     using (Image<Rgba32> srcImage = SixLabors.ImageSharp.Image.Load<Rgba32>(file))
                     {
                         // 大きい画像は縮小する
-                        int NESWidth = 1920;
-                        int NESHeight = 1080;
+                        int NESWidth = 1920 / 2;
+                        int NESHeight = 1080 / 2;
                         float ScaleX = (float)NESWidth / srcImage.Width;
                         float ScaleY = (float)NESHeight / srcImage.Height;
                         float Scale = Math.Min(ScaleX, ScaleY);
@@ -36,6 +37,12 @@ namespace ColorReductionTool
                             int newHeight = (int)(srcImage.Height * Scale);
                             srcImage.Mutate(ctx => ctx.Resize(newWidth, newHeight));
                         }
+
+                        // 黒く縁取りをする
+                        SixLabors.ImageSharp.Rectangle rect = new(0, 0, srcImage.Width - 1, srcImage.Height - 1);
+                        var borderColor = SixLabors.ImageSharp.Color.Black; // 縁取りの色
+                        var thickness = 1; // 線の太さ
+                        srcImage.Mutate(ctx => ctx.Draw(borderColor, thickness, rect));
 
                         // 画像を4bitパレット形式で保存する
                         var encoder4Bit = new PngEncoder
