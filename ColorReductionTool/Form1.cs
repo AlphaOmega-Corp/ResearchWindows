@@ -1,9 +1,8 @@
-using SixLabors.ImageSharp;
+ï»¿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using System.Windows.Forms;
 
 namespace ColorReductionTool
 {
@@ -24,7 +23,7 @@ namespace ColorReductionTool
                     // Process each file
                     using (Image<Rgba32> srcImage = SixLabors.ImageSharp.Image.Load<Rgba32>(file))
                     {
-                        // ‘å‚«‚¢‰æ‘œ‚Ík¬‚·‚é
+                        // å¤§ãã„ç”»åƒã¯ç¸®å°ã™ã‚‹
                         int NESWidth = 1920 / 2;
                         int NESHeight = 1080 / 2;
                         float ScaleX = (float)NESWidth / srcImage.Width;
@@ -32,35 +31,35 @@ namespace ColorReductionTool
                         float Scale = Math.Min(ScaleX, ScaleY);
                         if (Scale < 1.0f)
                         {
-                            // k¬‚·‚é
+                            // ç¸®å°ã™ã‚‹
                             int newWidth = (int)(srcImage.Width * Scale);
                             int newHeight = (int)(srcImage.Height * Scale);
                             srcImage.Mutate(ctx => ctx.Resize(newWidth, newHeight));
                         }
 
-                        // •‚­‰æ‚è‚ğ‚·‚é
+                        // é»’ãç¸å–ã‚Šã‚’ã™ã‚‹
                         SixLabors.ImageSharp.Rectangle rect = new(0, 0, srcImage.Width - 1, srcImage.Height - 1);
-                        var borderColor = SixLabors.ImageSharp.Color.Black; // ‰æ‚è‚ÌF
-                        var thickness = 1; // ü‚Ì‘¾‚³
+                        var borderColor = SixLabors.ImageSharp.Color.Black; // ç¸å–ã‚Šã®è‰²
+                        var thickness = 1; // ç·šã®å¤ªã•
                         srcImage.Mutate(ctx => ctx.Draw(borderColor, thickness, rect));
 
-                        // ‰æ‘œ‚ğ4bitƒpƒŒƒbƒgŒ`®‚Å•Û‘¶‚·‚é
+                        // ç”»åƒã‚’4bitãƒ‘ãƒ¬ãƒƒãƒˆå½¢å¼ã§ä¿å­˜ã™ã‚‹
                         var encoder4Bit = new PngEncoder
                         {
-                            ColorType = PngColorType.Palette, // ƒpƒŒƒbƒgŒ`®‚Å•Û‘¶
-                            BitDepth = PngBitDepth.Bit4       // 4bit ƒCƒ“ƒfƒbƒNƒXƒJƒ‰[
+                            ColorType = PngColorType.Palette, // ãƒ‘ãƒ¬ãƒƒãƒˆå½¢å¼ã§ä¿å­˜
+                            BitDepth = PngBitDepth.Bit4       // 4bit ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚«ãƒ©ãƒ¼
                         };
-                        // ‰æ‘œ‚ğ8bitƒpƒŒƒbƒgŒ`®‚Å•Û‘¶‚·‚é
+                        // ç”»åƒã‚’8bitãƒ‘ãƒ¬ãƒƒãƒˆå½¢å¼ã§ä¿å­˜ã™ã‚‹
                         var encoder8Bit = new PngEncoder
                         {
-                            ColorType = PngColorType.Palette, // ƒpƒŒƒbƒgŒ`®‚Å•Û‘¶
-                            BitDepth = PngBitDepth.Bit8       // 8bit ƒCƒ“ƒfƒbƒNƒXƒJƒ‰[
+                            ColorType = PngColorType.Palette, // ãƒ‘ãƒ¬ãƒƒãƒˆå½¢å¼ã§ä¿å­˜
+                            BitDepth = PngBitDepth.Bit8       // 8bit ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚«ãƒ©ãƒ¼
                         };
                         string FullPath = Path.GetFullPath(file);
                         string DirectoryName = Path.GetDirectoryName(FullPath) ?? string.Empty;
-                        // ƒtƒ@ƒCƒ‹–¼•”•ª‚ğæ“¾
+                        // ãƒ•ã‚¡ã‚¤ãƒ«åéƒ¨åˆ†ã‚’å–å¾—
                         string fileName = Path.GetFileNameWithoutExtension(file);
-                        // Šg’£q‚ğæ“¾
+                        // æ‹¡å¼µå­ã‚’å–å¾—
                         string extension = Path.GetExtension(file);
 
                         string file_4bit = Path.Combine(DirectoryName, $"{fileName}_4{extension}");
