@@ -80,8 +80,8 @@ namespace ColorReductionTool
                         // 拡張子を取得
                         string extension = Path.GetExtension(file);
 
-                        string file_4bit = Path.Combine(DirectoryName, $"{fileName}_4bit{extension}");
-                        string file_8bit = Path.Combine(DirectoryName, $"{fileName}_8bit{extension}");
+                        string file_4bit = Path.Combine(DirectoryName, $"{fileName}_4bit.png");
+                        string file_8bit = Path.Combine(DirectoryName, $"{fileName}_8bit.png");
                         srcImage.Save(file_4bit, encoder4Bit);
                         srcImage.Save(file_8bit, encoder8Bit);
                     }
