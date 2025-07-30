@@ -11,6 +11,7 @@ namespace ColorReductionTool
         public Form1()
         {
             InitializeComponent();
+            MaximumResComboBox.SelectedIndex = 3; // 初期値を設定
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
@@ -23,25 +24,42 @@ namespace ColorReductionTool
                     // Process each file
                     using (Image<Rgba32> srcImage = SixLabors.ImageSharp.Image.Load<Rgba32>(file))
                     {
-                        // 大きい画像は縮小する
-                        int NESWidth = 1920 / 2;
-                        int NESHeight = 1080 / 2;
-                        float ScaleX = (float)NESWidth / srcImage.Width;
-                        float ScaleY = (float)NESHeight / srcImage.Height;
-                        float Scale = Math.Min(ScaleX, ScaleY);
-                        if (Scale < 1.0f)
+                        if(MaximumResComboBox.SelectedIndex != 0)
                         {
-                            // 縮小する
-                            int newWidth = (int)(srcImage.Width * Scale);
-                            int newHeight = (int)(srcImage.Height * Scale);
-                            srcImage.Mutate(ctx => ctx.Resize(newWidth, newHeight));
+                            Dictionary<int, (int Width, int Height)> resolutions = new()
+                            {
+                                { 1, (1920, 1080) },
+                                { 2, (1280, 720) },
+                                { 3, (960, 960) },
+                                { 4, (720, 480) },
+                                { 5, (640, 480) },
+                                { 6, (320, 240) }
+                            };
+                            if(resolutions.TryGetValue(MaximumResComboBox.SelectedIndex, out var resolution))
+                            {
+                                // 大きい画像は縮小する
+                                int NESWidth = resolution.Width;
+                                int NESHeight = resolution.Height;
+                                float ScaleX = (float)NESWidth / srcImage.Width;
+                                float ScaleY = (float)NESHeight / srcImage.Height;
+                                float Scale = Math.Min(ScaleX, ScaleY);
+                                if (Scale < 1.0f)
+                                {
+                                    // 縮小する
+                                    int newWidth = (int)(srcImage.Width * Scale);
+                                    int newHeight = (int)(srcImage.Height * Scale);
+                                    srcImage.Mutate(ctx => ctx.Resize(newWidth, newHeight));
+                                }
+                            }
                         }
-
-                        // 黒く縁取りをする
-                        SixLabors.ImageSharp.Rectangle rect = new(0, 0, srcImage.Width - 1, srcImage.Height - 1);
-                        var borderColor = SixLabors.ImageSharp.Color.Black; // 縁取りの色
-                        var thickness = 1; // 線の太さ
-                        srcImage.Mutate(ctx => ctx.Draw(borderColor, thickness, rect));
+                        if ( BorderCheckBox.Checked)
+                        {
+                            // 黒く縁取りをする
+                            SixLabors.ImageSharp.Rectangle rect = new(0, 0, srcImage.Width - 1, srcImage.Height - 1);
+                            var borderColor = SixLabors.ImageSharp.Color.Black; // 縁取りの色
+                            var thickness = 1; // 線の太さ
+                            srcImage.Mutate(ctx => ctx.Draw(borderColor, thickness, rect));
+                        }
 
                         // 画像を4bitパレット形式で保存する
                         var encoder4Bit = new PngEncoder
@@ -62,8 +80,8 @@ namespace ColorReductionTool
                         // 拡張子を取得
                         string extension = Path.GetExtension(file);
 
-                        string file_4bit = Path.Combine(DirectoryName, $"{fileName}_4{extension}");
-                        string file_8bit = Path.Combine(DirectoryName, $"{fileName}_8{extension}");
+                        string file_4bit = Path.Combine(DirectoryName, $"{fileName}_4bit{extension}");
+                        string file_8bit = Path.Combine(DirectoryName, $"{fileName}_8bit{extension}");
                         srcImage.Save(file_4bit, encoder4Bit);
                         srcImage.Save(file_8bit, encoder8Bit);
                     }
@@ -72,7 +90,7 @@ namespace ColorReductionTool
         }
         private void Form1_DragEnter(object sender, DragEventArgs e)
         {
-            if( e.Data !=null )
+            if (e.Data != null)
             {
                 e.Effect = !e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.None : DragDropEffects.All;
             }
