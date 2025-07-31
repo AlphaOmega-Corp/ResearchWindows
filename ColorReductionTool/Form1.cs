@@ -11,7 +11,10 @@ namespace ColorReductionTool
         public Form1()
         {
             InitializeComponent();
-            MaximumResComboBox.SelectedIndex = 3; // 初期値を設定
+            int MaximumResValue = Properties.Settings.Default.MaximumRes;
+            MaximumResComboBox.SelectedIndex = MaximumResValue; // 初期値を設定
+            bool BorderValue = Properties.Settings.Default.Border;
+            BorderCheckBox.Checked = BorderValue; // 初期値を設定
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
@@ -24,7 +27,7 @@ namespace ColorReductionTool
                     // Process each file
                     using (Image<Rgba32> srcImage = SixLabors.ImageSharp.Image.Load<Rgba32>(file))
                     {
-                        if(MaximumResComboBox.SelectedIndex != 0)
+                        if (MaximumResComboBox.SelectedIndex != 0)
                         {
                             Dictionary<int, (int Width, int Height)> resolutions = new()
                             {
@@ -35,7 +38,7 @@ namespace ColorReductionTool
                                 { 5, (640, 480) },
                                 { 6, (320, 240) }
                             };
-                            if(resolutions.TryGetValue(MaximumResComboBox.SelectedIndex, out var resolution))
+                            if (resolutions.TryGetValue(MaximumResComboBox.SelectedIndex, out var resolution))
                             {
                                 // 大きい画像は縮小する
                                 int NESWidth = resolution.Width;
@@ -52,7 +55,7 @@ namespace ColorReductionTool
                                 }
                             }
                         }
-                        if ( BorderCheckBox.Checked)
+                        if (BorderCheckBox.Checked)
                         {
                             // 黒く縁取りをする
                             SixLabors.ImageSharp.Rectangle rect = new(0, 0, srcImage.Width - 1, srcImage.Height - 1);
@@ -94,6 +97,14 @@ namespace ColorReductionTool
             {
                 e.Effect = !e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.None : DragDropEffects.All;
             }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.MaximumRes = MaximumResComboBox.SelectedIndex;
+            Properties.Settings.Default.Border = BorderCheckBox.Checked;
+            // ここで設定を保存する
+            Properties.Settings.Default.Save();
         }
     }
 }

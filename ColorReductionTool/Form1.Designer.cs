@@ -73,6 +73,7 @@
             Controls.Add(MaximumResComboBox);
             Name = "Form1";
             Text = "画像減色ツール";
+            FormClosing += Form1_FormClosing;
             DragDrop += Form1_DragDrop;
             DragEnter += Form1_DragEnter;
             ResumeLayout(false);
