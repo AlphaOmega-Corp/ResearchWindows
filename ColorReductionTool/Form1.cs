@@ -15,6 +15,8 @@ namespace ColorReductionTool
             MaximumResComboBox.SelectedIndex = MaximumResValue; // 初期値を設定
             bool BorderValue = Properties.Settings.Default.Border;
             BorderCheckBox.Checked = BorderValue; // 初期値を設定
+            bool UseTempDirValue = Properties.Settings.Default.UseTempDir;
+            UseTempDirCheckBox.Checked = UseTempDirValue; // 一時フォルダーを使用するかどうかの初期値を設定
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
@@ -77,7 +79,10 @@ namespace ColorReductionTool
                             BitDepth = PngBitDepth.Bit8       // 8bit インデックスカラー
                         };
                         string FullPath = Path.GetFullPath(file);
-                        string DirectoryName = Path.GetDirectoryName(FullPath) ?? string.Empty;
+                        bool UseTempDir = UseTempDirCheckBox.Checked;
+                        string DirectoryName = UseTempDir
+                                                ? System.IO.Path.GetTempPath()
+                                                : Path.GetDirectoryName(FullPath) ?? string.Empty;
                         // ファイル名部分を取得
                         string fileName = Path.GetFileNameWithoutExtension(file);
                         // 拡張子を取得
@@ -105,6 +110,7 @@ namespace ColorReductionTool
         {
             Properties.Settings.Default.MaximumRes = MaximumResComboBox.SelectedIndex;
             Properties.Settings.Default.Border = BorderCheckBox.Checked;
+            Properties.Settings.Default.UseTempDir = UseTempDirCheckBox.Checked;
             // ここで設定を保存する
             Properties.Settings.Default.Save();
         }

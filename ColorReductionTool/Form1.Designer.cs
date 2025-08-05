@@ -31,6 +31,7 @@
             MaximumResComboBox = new ComboBox();
             MaximumResLabel = new Label();
             BorderCheckBox = new CheckBox();
+            UseTempDirCheckBox = new CheckBox();
             SuspendLayout();
             // 
             // MaximumResComboBox
@@ -55,12 +56,22 @@
             // BorderCheckBox
             // 
             BorderCheckBox.AutoSize = true;
-            BorderCheckBox.Location = new Point(24, 65);
+            BorderCheckBox.Location = new Point(24, 72);
             BorderCheckBox.Name = "BorderCheckBox";
             BorderCheckBox.Size = new Size(97, 19);
             BorderCheckBox.TabIndex = 2;
             BorderCheckBox.Text = "縁取りを付ける";
             BorderCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // UseTempDirCheckBox
+            // 
+            UseTempDirCheckBox.AutoSize = true;
+            UseTempDirCheckBox.Location = new Point(147, 72);
+            UseTempDirCheckBox.Name = "UseTempDirCheckBox";
+            UseTempDirCheckBox.Size = new Size(152, 19);
+            UseTempDirCheckBox.TabIndex = 3;
+            UseTempDirCheckBox.Text = "一時ディレクトリに出力する";
+            UseTempDirCheckBox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -68,6 +79,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(320, 240);
+            Controls.Add(UseTempDirCheckBox);
             Controls.Add(BorderCheckBox);
             Controls.Add(MaximumResLabel);
             Controls.Add(MaximumResComboBox);
@@ -85,5 +97,6 @@
         private ComboBox MaximumResComboBox;
         private Label MaximumResLabel;
         private CheckBox BorderCheckBox;
+        private CheckBox UseTempDirCheckBox;
     }
 }

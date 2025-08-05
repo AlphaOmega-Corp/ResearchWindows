@@ -46,5 +46,17 @@ namespace ColorReductionTool.Properties {
                 this["Border"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseTempDir {
+            get {
+                return ((bool)(this["UseTempDir"]));
+            }
+            set {
+                this["UseTempDir"] = value;
+            }
+        }
     }
 }
