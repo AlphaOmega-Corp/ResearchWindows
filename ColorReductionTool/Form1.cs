@@ -87,6 +87,8 @@ namespace ColorReductionTool
                         string file_8bit = Path.Combine(DirectoryName, $"{fileName}_8bit.png");
                         srcImage.Save(file_4bit, encoder4Bit);
                         srcImage.Save(file_8bit, encoder8Bit);
+                        // 仮でフォルダーを開く
+                        System.Diagnostics.Process.Start("EXPLORER.EXE", DirectoryName);
                     }
                 }
             }
