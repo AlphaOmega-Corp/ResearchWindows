@@ -3,6 +3,7 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System.Diagnostics;
 
 namespace ColorReductionTool
 {
@@ -80,9 +81,15 @@ namespace ColorReductionTool
                         };
                         string FullPath = Path.GetFullPath(file);
                         bool UseTempDir = UseTempDirCheckBox.Checked;
+                        string exeName = Process.GetCurrentProcess().ProcessName;
                         string DirectoryName = UseTempDir
-                                                ? System.IO.Path.GetTempPath()
+                                                ? Path.Combine( System.IO.Path.GetTempPath(), exeName )
                                                 : Path.GetDirectoryName(FullPath) ?? string.Empty;
+                        // 一時フォルダーを使用する場合は、フォルダーを作成
+                        if ( !Directory.Exists(DirectoryName) )
+                        {
+                            Directory.CreateDirectory(DirectoryName);
+                        }
                         // ファイル名部分を取得
                         string fileName = Path.GetFileNameWithoutExtension(file);
                         // 拡張子を取得
