@@ -49,13 +49,37 @@ namespace ColorReductionTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool UseTempDir {
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Size FormSize {
             get {
-                return ((bool)(this["UseTempDir"]));
+                return ((global::System.Drawing.Size)(this["FormSize"]));
             }
             set {
-                this["UseTempDir"] = value;
+                this["FormSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int OutputDirType {
+            get {
+                return ((int)(this["OutputDirType"]));
+            }
+            set {
+                this["OutputDirType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string OutputDirPath {
+            get {
+                return ((string)(this["OutputDirPath"]));
+            }
+            set {
+                this["OutputDirPath"] = value;
             }
         }
     }

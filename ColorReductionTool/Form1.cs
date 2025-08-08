@@ -12,12 +12,14 @@ namespace ColorReductionTool
         public Form1()
         {
             InitializeComponent();
-            int MaximumResValue = Properties.Settings.Default.MaximumRes;
-            MaximumResComboBox.SelectedIndex = MaximumResValue; // 初期値を設定
-            bool BorderValue = Properties.Settings.Default.Border;
-            BorderCheckBox.Checked = BorderValue; // 初期値を設定
-            bool UseTempDirValue = Properties.Settings.Default.UseTempDir;
-            UseTempDirCheckBox.Checked = UseTempDirValue; // 一時フォルダーを使用するかどうかの初期値を設定
+            if (Properties.Settings.Default.FormSize.Width != 0 && Properties.Settings.Default.FormSize.Height != 0)
+            {
+                this.Size = Properties.Settings.Default.FormSize;
+            }
+            BorderCheckBox.Checked = Properties.Settings.Default.Border;
+            folderBrowserDialog1.SelectedPath = Properties.Settings.Default.OutputDirPath;
+            MaximumResComboBox.SelectedIndex  = Properties.Settings.Default.MaximumRes;
+            OutputDirComboBox.SelectedIndex   = Properties.Settings.Default.OutputDirType;
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
@@ -79,28 +81,29 @@ namespace ColorReductionTool
                             ColorType = PngColorType.Palette, // パレット形式で保存
                             BitDepth = PngBitDepth.Bit8       // 8bit インデックスカラー
                         };
-                        string FullPath = Path.GetFullPath(file);
-                        bool UseTempDir = UseTempDirCheckBox.Checked;
-                        string exeName = Process.GetCurrentProcess().ProcessName;
-                        string DirectoryName = UseTempDir
-                                                ? Path.Combine( System.IO.Path.GetTempPath(), exeName )
-                                                : Path.GetDirectoryName(FullPath) ?? string.Empty;
-                        // 一時フォルダーを使用する場合は、フォルダーを作成
-                        if ( !Directory.Exists(DirectoryName) )
+                        string DirectoryName = GetOutputDirectoryName(file);
+                        if (!Directory.Exists(DirectoryName))
                         {
+                            // 存在しないフォルダーを使用する場合は、フォルダーを作成
                             Directory.CreateDirectory(DirectoryName);
                         }
+                        LogRichTextBox.AppendText($"出力フォルダ:  \"file:{DirectoryName}\"\n");
+
                         // ファイル名部分を取得
                         string fileName = Path.GetFileNameWithoutExtension(file);
                         // 拡張子を取得
                         string extension = Path.GetExtension(file);
 
-                        string file_4bit = Path.Combine(DirectoryName, $"{fileName}_4bit.png");
-                        string file_8bit = Path.Combine(DirectoryName, $"{fileName}_8bit.png");
-                        srcImage.Save(file_4bit, encoder4Bit);
-                        srcImage.Save(file_8bit, encoder8Bit);
+                        string file_4bit = $"{fileName}_4bit.png";
+                        string file_8bit = $"{fileName}_8bit.png";
+                        srcImage.Save(Path.Combine(DirectoryName, file_4bit), encoder4Bit);
+                        srcImage.Save(Path.Combine(DirectoryName, file_8bit), encoder8Bit);
+
+                        LogRichTextBox.AppendText($"コンバート: {file_4bit}\n");
+                        LogRichTextBox.AppendText($"コンバート: {file_8bit}\n");
+
                         // 仮でフォルダーを開く
-                        System.Diagnostics.Process.Start("EXPLORER.EXE", DirectoryName);
+                        // System.Diagnostics.Process.Start("EXPLORER.EXE", DirectoryName);
                     }
                 }
             }
@@ -115,11 +118,82 @@ namespace ColorReductionTool
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                // ウインドウステートがNormalな場合には位置（location）とサイズ（size）を記憶する。
+                Properties.Settings.Default.FormSize = this.Size;
+            }
+            else
+            {
+                // もし最小化（minimized）や最大化（maximized）の場合には、RestoreBoundsを記憶する。
+                Properties.Settings.Default.FormSize = this.RestoreBounds.Size;
+            }
             Properties.Settings.Default.MaximumRes = MaximumResComboBox.SelectedIndex;
             Properties.Settings.Default.Border = BorderCheckBox.Checked;
-            Properties.Settings.Default.UseTempDir = UseTempDirCheckBox.Checked;
+            Properties.Settings.Default.OutputDirType = OutputDirComboBox.SelectedIndex;
+            Properties.Settings.Default.OutputDirPath = folderBrowserDialog1.SelectedPath;
             // ここで設定を保存する
             Properties.Settings.Default.Save();
         }
+
+        private void LogRichTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            string path = e.LinkText;
+            System.Diagnostics.Process.Start("explorer.exe", path);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DialogResult Result = folderBrowserDialog1.ShowDialog();
+            if (Result == DialogResult.OK)
+            {
+                OutputDirComboBox.SelectedIndex = 2;
+            }
+        }
+
+        private void OutputDirComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PrintOutputDirComboBoxSelectedIndex();
+        }
+
+
+        private string GetOutputDirectoryName(string filename)
+        {
+            int UseTempDirType = OutputDirComboBox.SelectedIndex;
+            string DirectoryName;
+            switch (UseTempDirType)
+            {
+                default:
+                case 0: // 
+                    if (string.IsNullOrEmpty(filename) == false)
+                    {
+                        string FullPath = Path.GetFullPath(filename);
+                        DirectoryName = Path.GetDirectoryName(FullPath) ?? string.Empty;
+                    }
+                    else
+                    {
+                        DirectoryName = "";
+                    }
+                    break;
+                case 1: // 一時フォルダーを使用
+                    string exeName = Process.GetCurrentProcess().ProcessName;
+                    DirectoryName = Path.Combine(System.IO.Path.GetTempPath(), exeName);
+                    break;
+                case 2: // ユーザーが選択したフォルダーを使用
+                    DirectoryName = folderBrowserDialog1.SelectedPath;
+                    break;
+            }
+            return DirectoryName;
+        }
+
+        private void PrintOutputDirComboBoxSelectedIndex()
+        {
+            string DirectoryName = GetOutputDirectoryName("");
+            if(string.IsNullOrEmpty(DirectoryName)==false)
+            {
+                LogRichTextBox.AppendText($"出力フォルダ:  \"file:{DirectoryName}\"\n");
+            }
+        }
+
     }
 }
