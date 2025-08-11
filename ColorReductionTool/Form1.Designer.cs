@@ -42,6 +42,7 @@
             OutputDirComboBox = new ComboBox();
             LogRichTextBox = new RichTextBox();
             folderBrowserDialog1 = new FolderBrowserDialog();
+            openFileDialog1 = new OpenFileDialog();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -59,7 +60,7 @@
             // MaximumResLabel
             // 
             MaximumResLabel.AutoSize = true;
-            MaximumResLabel.Location = new Point(12, 17);
+            MaximumResLabel.Location = new Point(31, 16);
             MaximumResLabel.Name = "MaximumResLabel";
             MaximumResLabel.Size = new Size(67, 15);
             MaximumResLabel.TabIndex = 1;
@@ -77,9 +78,9 @@
             // 
             // statusStrip1
             // 
-            statusStrip1.Location = new Point(0, 277);
+            statusStrip1.Location = new Point(0, 273);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(457, 22);
+            statusStrip1.Size = new Size(400, 22);
             statusStrip1.TabIndex = 4;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -88,7 +89,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { FilesToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(457, 24);
+            menuStrip1.Size = new Size(400, 24);
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -102,14 +103,16 @@
             // OpenToolStripMenuItem
             // 
             OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            OpenToolStripMenuItem.Size = new Size(119, 22);
+            OpenToolStripMenuItem.Size = new Size(180, 22);
             OpenToolStripMenuItem.Text = "開く(&O)...";
+            OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
             // 
             // ExitToolStripMenuItem
             // 
             ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            ExitToolStripMenuItem.Size = new Size(119, 22);
+            ExitToolStripMenuItem.Size = new Size(180, 22);
             ExitToolStripMenuItem.Text = "終了(&E)";
+            ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
             // panel1
             // 
@@ -122,7 +125,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 24);
             panel1.Name = "panel1";
-            panel1.Size = new Size(457, 76);
+            panel1.Size = new Size(400, 76);
             panel1.TabIndex = 6;
             // 
             // OutputDirSelectButton
@@ -161,7 +164,7 @@
             LogRichTextBox.Location = new Point(0, 100);
             LogRichTextBox.Name = "LogRichTextBox";
             LogRichTextBox.ReadOnly = true;
-            LogRichTextBox.Size = new Size(457, 177);
+            LogRichTextBox.Size = new Size(400, 173);
             LogRichTextBox.TabIndex = 7;
             LogRichTextBox.Text = "";
             LogRichTextBox.WordWrap = false;
@@ -171,12 +174,17 @@
             // 
             folderBrowserDialog1.Description = "出力フォルダーを選択してください。";
             // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
+            openFileDialog1.Multiselect = true;
+            // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(457, 299);
+            ClientSize = new Size(400, 295);
             Controls.Add(LogRichTextBox);
             Controls.Add(statusStrip1);
             Controls.Add(panel1);
@@ -211,5 +219,6 @@
         private Label OutputDirlabel;
         private Button OutputDirSelectButton;
         private FolderBrowserDialog folderBrowserDialog1;
+        private OpenFileDialog openFileDialog1;
     }
 }
