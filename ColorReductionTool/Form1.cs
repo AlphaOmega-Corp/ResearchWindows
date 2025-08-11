@@ -129,7 +129,7 @@ namespace ColorReductionTool
                     Action<FileInfo, string, FileInfo> OutputFileInfo = (InputFileInfo, file, OutputFileInfo) =>
                     {
                         float CompressRate = 100.0f * OutputFileInfo.Length / InputFileInfo.Length;
-                        LogRichTextBox.SelectionBackColor = CompressRate < 100 ? System.Drawing.Color.LightGreen : System.Drawing.Color.Red;
+                        LogRichTextBox.SelectionBackColor = CompressRate < 100 ? System.Drawing.Color.LightGreen : System.Drawing.Color.OrangeRed;
                         string CompressRateString = CompressRate.ToString("F2");
                         // 
                         string[] sizes = { "B", "KB", "MB", "GB", "TB" };
