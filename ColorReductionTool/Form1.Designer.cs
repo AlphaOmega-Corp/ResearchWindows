@@ -52,9 +52,9 @@
             MaximumResComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             MaximumResComboBox.FormattingEnabled = true;
             MaximumResComboBox.Items.AddRange(new object[] { "変換なし", "1920 x 1080", "1280 x 720", " 960 x 960", " 720 x 480", " 640 x 480", " 320 x 240" });
-            MaximumResComboBox.Location = new Point(104, 13);
+            MaximumResComboBox.Location = new Point(104, 14);
             MaximumResComboBox.Name = "MaximumResComboBox";
-            MaximumResComboBox.Size = new Size(152, 23);
+            MaximumResComboBox.Size = new Size(181, 23);
             MaximumResComboBox.TabIndex = 0;
             // 
             // MaximumResLabel
@@ -69,7 +69,7 @@
             // BorderCheckBox
             // 
             BorderCheckBox.AutoSize = true;
-            BorderCheckBox.Location = new Point(276, 16);
+            BorderCheckBox.Location = new Point(291, 13);
             BorderCheckBox.Name = "BorderCheckBox";
             BorderCheckBox.Size = new Size(97, 19);
             BorderCheckBox.TabIndex = 2;
@@ -103,14 +103,14 @@
             // OpenToolStripMenuItem
             // 
             OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            OpenToolStripMenuItem.Size = new Size(180, 22);
+            OpenToolStripMenuItem.Size = new Size(119, 22);
             OpenToolStripMenuItem.Text = "開く(&O)...";
             OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
             // 
             // ExitToolStripMenuItem
             // 
             ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            ExitToolStripMenuItem.Size = new Size(180, 22);
+            ExitToolStripMenuItem.Size = new Size(119, 22);
             ExitToolStripMenuItem.Text = "終了(&E)";
             ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
@@ -130,9 +130,9 @@
             // 
             // OutputDirSelectButton
             // 
-            OutputDirSelectButton.Location = new Point(262, 43);
+            OutputDirSelectButton.Location = new Point(248, 43);
             OutputDirSelectButton.Name = "OutputDirSelectButton";
-            OutputDirSelectButton.Size = new Size(73, 23);
+            OutputDirSelectButton.Size = new Size(61, 23);
             OutputDirSelectButton.TabIndex = 5;
             OutputDirSelectButton.Text = "フォルダ...";
             OutputDirSelectButton.UseVisualStyleBackColor = true;
@@ -154,7 +154,7 @@
             OutputDirComboBox.Items.AddRange(new object[] { "入力ファイルと同じ場所", "一時ファイルに出力", "指定したフォルダーに出力" });
             OutputDirComboBox.Location = new Point(104, 43);
             OutputDirComboBox.Name = "OutputDirComboBox";
-            OutputDirComboBox.Size = new Size(152, 23);
+            OutputDirComboBox.Size = new Size(138, 23);
             OutputDirComboBox.TabIndex = 0;
             OutputDirComboBox.SelectedIndexChanged += OutputDirComboBox_SelectedIndexChanged;
             // 
