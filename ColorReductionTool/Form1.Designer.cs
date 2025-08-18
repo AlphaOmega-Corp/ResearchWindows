@@ -51,7 +51,7 @@
             // 
             MaximumResComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             MaximumResComboBox.FormattingEnabled = true;
-            MaximumResComboBox.Items.AddRange(new object[] { "変換なし", "1920 x 1080", "1280 x 720", " 960 x 960", " 720 x 480", " 640 x 480", " 320 x 240" });
+            MaximumResComboBox.Items.AddRange(new object[] { "変換なし", "1920 x 1080", "1280 x 720", " 960 x 960", " 720 x 480", " 640 x 480", " 320 x 240", " 256 x 240" });
             MaximumResComboBox.Location = new Point(104, 14);
             MaximumResComboBox.Name = "MaximumResComboBox";
             MaximumResComboBox.Size = new Size(181, 23);

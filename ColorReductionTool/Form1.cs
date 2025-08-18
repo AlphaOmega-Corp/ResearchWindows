@@ -57,7 +57,8 @@ namespace ColorReductionTool
                             { 3, (960, 960) },
                             { 4, (720, 480) },
                             { 5, (640, 480) },
-                            { 6, (320, 240) }
+                            { 6, (320, 240) },
+                            { 6, (256, 240) },
                         };
                         if (resolutions.TryGetValue(MaximumResComboBox.SelectedIndex, out var resolution))
                         {
