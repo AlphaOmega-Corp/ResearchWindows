@@ -28,8 +28,8 @@ namespace ColorReductionTool
             }
             BorderCheckBox.Checked = Properties.Settings.Default.Border;
             folderBrowserDialog1.SelectedPath = Properties.Settings.Default.OutputDirPath;
-            MaximumResComboBox.SelectedIndex  = Properties.Settings.Default.MaximumRes;
-            OutputDirComboBox.SelectedIndex   = Properties.Settings.Default.OutputDirType;
+            MaximumResComboBox.SelectedIndex = Properties.Settings.Default.MaximumRes;
+            OutputDirComboBox.SelectedIndex = Properties.Settings.Default.OutputDirType;
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
@@ -58,7 +58,7 @@ namespace ColorReductionTool
                             { 4, (720, 480) },
                             { 5, (640, 480) },
                             { 6, (320, 240) },
-                            { 6, (256, 240) },
+                            { 7, (256, 240) },
                         };
                         if (resolutions.TryGetValue(MaximumResComboBox.SelectedIndex, out var resolution))
                         {
@@ -187,6 +187,7 @@ namespace ColorReductionTool
             string? path = e.LinkText;
             if (path != null)
             {
+                // 
                 System.Diagnostics.Process.Start("explorer.exe", path);
                 LogRichTextBox.AppendText($"フォルダーをエクスプローラーで開きます。\n");
             }
@@ -202,7 +203,7 @@ namespace ColorReductionTool
             if (Result == DialogResult.OK)
             {
                 int Type = 2;
-                if (OutputDirComboBox.SelectedIndex!=Type)
+                if (OutputDirComboBox.SelectedIndex != Type)
                 {
                     OutputDirComboBox.SelectedIndex = Type;
                 }
@@ -215,6 +216,9 @@ namespace ColorReductionTool
 
         private void OutputDirComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // 出力フォルダーを作成
+            CreateOutputDirectory();
+            //
             PrintOutputDirComboBoxSelectedIndex();
         }
 
@@ -247,6 +251,21 @@ namespace ColorReductionTool
             return DirectoryName;
         }
 
+        private void CreateOutputDirectory()
+        {
+            EOutputDir UseTempDirType = (EOutputDir)OutputDirComboBox.SelectedIndex;
+            if (UseTempDirType == EOutputDir.TempFolder) // 一時フォルダーを使用
+            {
+                string exeName = Process.GetCurrentProcess().ProcessName;
+                string DirectoryName = Path.Combine(System.IO.Path.GetTempPath(), exeName);
+                if (!Directory.Exists(DirectoryName))
+                {
+                    // 存在しないフォルダーを使用する場合は、フォルダーを作成
+                    Directory.CreateDirectory(DirectoryName);
+                }
+            }
+        }
+
         private void PrintOutputDirComboBoxSelectedIndex()
         {
             string DirectoryName = GetOutputDirectoryName("");
@@ -272,6 +291,44 @@ namespace ColorReductionTool
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void PasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsImage())
+            {
+                List<string> fullpathList = new List<string>();
+                try
+                {
+                    System.Drawing.Image image = Clipboard.GetImage();
+                    if (image != null)
+                    {
+                        string formattedDateTime = DateTime.Now.ToString("yyyy-MM-dd_HHmmss");
+                        string filename = $"clipboard_{formattedDateTime}.png";
+                        string DirectoryName = GetOutputDirectoryName(filename);
+                        string fullpath = Path.Combine(DirectoryName, filename);
+
+                        // クリップボードから画像を取得して変換する
+                        image.Save(fullpath);
+                        // クリップボードから画像のパスを追加
+                        fullpathList.Add( fullpath );
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogRichTextBox.AppendText($"クリップボードから画像を取得できませんでした: {ex.Message}\n");
+                }
+                
+                if(fullpathList.Count!=0)
+                {
+                    // 画像圧縮する
+                    ImageConvert(fullpathList.ToArray());
+                }
+            }
+            else
+            {
+                LogRichTextBox.AppendText("クリップボードに画像がありません。\n");
+            }
         }
     }
 }

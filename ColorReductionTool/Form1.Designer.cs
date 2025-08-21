@@ -43,6 +43,8 @@
             LogRichTextBox = new RichTextBox();
             folderBrowserDialog1 = new FolderBrowserDialog();
             openFileDialog1 = new OpenFileDialog();
+            EditToolStripMenuItem = new ToolStripMenuItem();
+            PasteToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -86,7 +88,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { FilesToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { FilesToolStripMenuItem, EditToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(400, 24);
@@ -103,14 +105,14 @@
             // OpenToolStripMenuItem
             // 
             OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            OpenToolStripMenuItem.Size = new Size(119, 22);
+            OpenToolStripMenuItem.Size = new Size(180, 22);
             OpenToolStripMenuItem.Text = "開く(&O)...";
             OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
             // 
             // ExitToolStripMenuItem
             // 
             ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            ExitToolStripMenuItem.Size = new Size(119, 22);
+            ExitToolStripMenuItem.Size = new Size(180, 22);
             ExitToolStripMenuItem.Text = "終了(&E)";
             ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
@@ -179,6 +181,21 @@
             openFileDialog1.FileName = "openFileDialog1";
             openFileDialog1.Multiselect = true;
             // 
+            // EditToolStripMenuItem
+            // 
+            EditToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { PasteToolStripMenuItem });
+            EditToolStripMenuItem.Name = "EditToolStripMenuItem";
+            EditToolStripMenuItem.Size = new Size(57, 20);
+            EditToolStripMenuItem.Text = "編集(&E)";
+            // 
+            // PasteToolStripMenuItem
+            // 
+            PasteToolStripMenuItem.Name = "PasteToolStripMenuItem";
+            PasteToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.V;
+            PasteToolStripMenuItem.Size = new Size(180, 22);
+            PasteToolStripMenuItem.Text = "貼り付け(&P)";
+            PasteToolStripMenuItem.Click += PasteToolStripMenuItem_Click;
+            // 
             // Form1
             // 
             AllowDrop = true;
@@ -220,5 +237,7 @@
         private Button OutputDirSelectButton;
         private FolderBrowserDialog folderBrowserDialog1;
         private OpenFileDialog openFileDialog1;
+        private ToolStripMenuItem EditToolStripMenuItem;
+        private ToolStripMenuItem PasteToolStripMenuItem;
     }
 }
