@@ -35,9 +35,12 @@
             OpenToolStripMenuItem = new ToolStripMenuItem();
             ExitToolStripMenuItem = new ToolStripMenuItem();
             openFileDialog1 = new OpenFileDialog();
+            statusStrip1 = new StatusStrip();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
+            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -59,6 +62,9 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
+            pictureBox1.MouseClick += pictureBox1_MouseClick;
+            pictureBox1.MouseDown += pictureBox1_MouseDown;
+            pictureBox1.MouseMove += pictureBox1_MouseMove;
             // 
             // menuStrip1
             // 
@@ -93,6 +99,19 @@
             // 
             openFileDialog1.FileName = "openFileDialog1";
             // 
+            // statusStrip1
+            // 
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
+            statusStrip1.Location = new Point(0, 428);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(400, 22);
+            statusStrip1.TabIndex = 1;
+            // 
+            // toolStripStatusLabel1
+            // 
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(118, 17);
+            // 
             // Form1
             // 
             AllowDrop = true;
@@ -101,6 +120,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(panel1);
             Controls.Add(menuStrip1);
+            Controls.Add(statusStrip1);
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "ドットエディタ";
@@ -111,6 +131,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -124,5 +146,7 @@
         private ToolStripMenuItem OpenToolStripMenuItem;
         private ToolStripMenuItem ExitToolStripMenuItem;
         private OpenFileDialog openFileDialog1;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
