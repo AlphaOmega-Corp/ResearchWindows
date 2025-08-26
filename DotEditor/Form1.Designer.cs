@@ -1,0 +1,123 @@
+﻿namespace DotEditor
+{
+    partial class Form1
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            panel1 = new Panel();
+            pictureBox1 = new PictureBox();
+            menuStrip1 = new MenuStrip();
+            FilesToolStripMenuItem = new ToolStripMenuItem();
+            OpenToolStripMenuItem = new ToolStripMenuItem();
+            ExitToolStripMenuItem = new ToolStripMenuItem();
+            openFileDialog1 = new OpenFileDialog();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            menuStrip1.SuspendLayout();
+            SuspendLayout();
+            // 
+            // panel1
+            // 
+            panel1.AutoScroll = true;
+            panel1.Controls.Add(pictureBox1);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(800, 450);
+            panel1.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(800, 426);
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { FilesToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.TabIndex = 1;
+            // 
+            // FilesToolStripMenuItem
+            // 
+            FilesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenToolStripMenuItem, ExitToolStripMenuItem });
+            FilesToolStripMenuItem.Name = "FilesToolStripMenuItem";
+            FilesToolStripMenuItem.Size = new Size(67, 20);
+            FilesToolStripMenuItem.Text = "ファイル(&F)";
+            // 
+            // OpenToolStripMenuItem
+            // 
+            OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+            OpenToolStripMenuItem.Size = new Size(119, 22);
+            OpenToolStripMenuItem.Text = "開く(&O)...";
+            OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
+            // 
+            // ExitToolStripMenuItem
+            // 
+            ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
+            ExitToolStripMenuItem.Size = new Size(119, 22);
+            ExitToolStripMenuItem.Text = "終了(&E)";
+            ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
+            // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // Form1
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(panel1);
+            MainMenuStrip = menuStrip1;
+            Name = "Form1";
+            Text = "ドットエディタ";
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            Controls.Add(menuStrip1);
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private Panel panel1;
+        private PictureBox pictureBox1;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem FilesToolStripMenuItem;
+        private ToolStripMenuItem OpenToolStripMenuItem;
+        private ToolStripMenuItem ExitToolStripMenuItem;
+        private OpenFileDialog openFileDialog1;
+    }
+}
