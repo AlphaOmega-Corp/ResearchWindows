@@ -77,7 +77,7 @@
                 DashPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
                 for (int x = 0; x < original.Width; x++)
                 {
-                    int sx = x * GridSize + GridSize -1;
+                    int sx = x * GridSize + GridSize - 1;
                     Pen pen = (x % 8 == 7) ? DashPen : blackPen;
                     g.DrawLine(pen, sx, 0, sx, newHeight);
                 }
@@ -152,5 +152,13 @@
             return Color.Empty;
         }
 
+        private void ColorDialogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new ColorDialog())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    currentColor = dlg.Color;
+            }
+        }
     }
 }

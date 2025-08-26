@@ -34,6 +34,8 @@
             FilesToolStripMenuItem = new ToolStripMenuItem();
             OpenToolStripMenuItem = new ToolStripMenuItem();
             ExitToolStripMenuItem = new ToolStripMenuItem();
+            DisplayToolStripMenuItem = new ToolStripMenuItem();
+            ColorDialogToolStripMenuItem = new ToolStripMenuItem();
             openFileDialog1 = new OpenFileDialog();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
@@ -48,9 +50,9 @@
             panel1.AutoScroll = true;
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(0, 0);
+            panel1.Location = new Point(0, 24);
             panel1.Name = "panel1";
-            panel1.Size = new Size(800, 450);
+            panel1.Size = new Size(800, 404);
             panel1.TabIndex = 0;
             panel1.Resize += panel1_Resize;
             // 
@@ -68,7 +70,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { FilesToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { FilesToolStripMenuItem, DisplayToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(800, 24);
@@ -95,6 +97,20 @@
             ExitToolStripMenuItem.Text = "終了(&E)";
             ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
+            // DisplayToolStripMenuItem
+            // 
+            DisplayToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ColorDialogToolStripMenuItem });
+            DisplayToolStripMenuItem.Name = "DisplayToolStripMenuItem";
+            DisplayToolStripMenuItem.Size = new Size(57, 20);
+            DisplayToolStripMenuItem.Text = "表示(&F)";
+            // 
+            // ColorDialogToolStripMenuItem
+            // 
+            ColorDialogToolStripMenuItem.Name = "ColorDialogToolStripMenuItem";
+            ColorDialogToolStripMenuItem.Size = new Size(180, 22);
+            ColorDialogToolStripMenuItem.Text = "色(&C)";
+            ColorDialogToolStripMenuItem.Click += ColorDialogToolStripMenuItem_Click;
+            // 
             // openFileDialog1
             // 
             openFileDialog1.FileName = "openFileDialog1";
@@ -104,13 +120,13 @@
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
             statusStrip1.Location = new Point(0, 428);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(400, 22);
+            statusStrip1.Size = new Size(800, 22);
             statusStrip1.TabIndex = 1;
             // 
             // toolStripStatusLabel1
             // 
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(118, 17);
+            toolStripStatusLabel1.Size = new Size(0, 17);
             // 
             // Form1
             // 
@@ -148,5 +164,7 @@
         private OpenFileDialog openFileDialog1;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripMenuItem DisplayToolStripMenuItem;
+        private ToolStripMenuItem ColorDialogToolStripMenuItem;
     }
 }
