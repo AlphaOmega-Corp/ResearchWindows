@@ -1,4 +1,4 @@
-namespace DotEditor
+Ôªønamespace DotEditor
 {
     public partial class Form1 : Form
     {
@@ -12,31 +12,80 @@ namespace DotEditor
             DialogResult Result = openFileDialog1.ShowDialog();
             if (Result == DialogResult.OK)
             {
-                // å≥âÊëúÇì«Ç›çûÇ›
-                Image original = Image.FromFile(openFileDialog1.FileName);
-
-                // ägëÂî{ó¶Åió·ÅF8î{Åj
-                float scale = 8.0f;
-                int newWidth = (int)(original.Width * scale);
-                int newHeight = (int)(original.Height * scale);
-
-                // ägëÂâÊëúÇçÏê¨
-                Bitmap enlarged = new Bitmap(newWidth, newHeight);
-                using (Graphics g = Graphics.FromImage(enlarged))
-                {
-                    //g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                    g.DrawImage(original, 0, 0, newWidth, newHeight);
-                }
-
-                // PictureBox Ç…ï\é¶
-                pictureBox1.Image = enlarged;
+                LoadImage(openFileDialog1.FileName);
             }
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+        private void CenterPictureBox()
+        {
+            int x = (panel1.ClientSize.Width - pictureBox1.Width) / 2;
+            int y = (panel1.ClientSize.Height - pictureBox1.Height) / 2;
+            Point center = new Point( Math.Max(0, x), Math.Max(0, y));
+            pictureBox1.Location = center;
+        }
+
+        private void panel1_Resize(object sender, EventArgs e)
+        {
+            CenterPictureBox();
+        }
+
+        private void Form1_DragDrop(object sender, DragEventArgs e)
+        {
+            var fileNames = e.Data?.GetData(DataFormats.FileDrop, false) as string[];
+            if (fileNames != null)
+            {
+                foreach (var file in fileNames)
+                {
+                    LoadImage(file);
+                }
+            }
+        }
+
+        private void Form1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data != null)
+            {
+                e.Effect = !e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.None : DragDropEffects.All;
+            }
+        }
+        private void LoadImage(string FileName)
+        {
+            // ÂÖÉÁîªÂÉè„ÇíË™≠„ÅøËæº„Åø
+            Image original = Image.FromFile(FileName);
+
+            // Êã°Â§ßÂÄçÁéáÔºà‰æãÔºö8ÂÄçÔºâ
+            int scale = 8;
+            int newWidth = (int)(original.Width * scale);
+            int newHeight = (int)(original.Height * scale);
+
+            // Êã°Â§ßÁîªÂÉè„Çí‰ΩúÊàê
+            Bitmap enlarged = new Bitmap(newWidth, newHeight);
+            using (Graphics g = Graphics.FromImage(enlarged))
+            {
+                //g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                g.DrawImage(original, scale / 2, scale / 2, newWidth, newHeight);
+                // Glid Line
+                for (int x = 0; x < original.Width; x++)
+                {
+                    int sx = x * scale;
+                    g.DrawLine(Pens.Black, sx, 0, sx, newHeight);
+                }
+                for (int y = 0; y < original.Height; y++)
+                {
+                    int sy = y * scale;
+                    g.DrawLine(Pens.Black, 0, sy, newWidth, sy);
+                }
+            }
+
+            // PictureBox „Å´Ë°®Á§∫
+            pictureBox1.Image = enlarged;
+
+            CenterPictureBox();
         }
     }
 }
