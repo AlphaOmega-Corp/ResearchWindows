@@ -64,32 +64,43 @@
             int newWidth = (int)(original.Width * GridSize);
             int newHeight = (int)(original.Height * GridSize);
 
-            // 拡大画像を作成
             Bitmap enlarged = new Bitmap(newWidth, newHeight);
             using (Graphics g = Graphics.FromImage(enlarged))
             {
-                //g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                // 拡大画像を作成
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                g.DrawImage(original, GridSize / 2, GridSize / 2, newWidth, newHeight);
+                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+                g.DrawImage(original, 0, 0, newWidth, newHeight);
+
+                // 線描画に切替
+                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Default;
                 // Grid Line
-                Pen blackPen = new Pen(Color.Black, 1);
-                Pen DashPen = new Pen(Color.White, 1);
-                DashPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                for (int x = 0; x < original.Width; x++)
+                using (var blackPen = new Pen(Color.Black, 1))
+                using (var dashPen = new Pen(Color.White, 1) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
                 {
-                    int sx = x * GridSize + GridSize - 1;
-                    Pen pen = (x % 8 == 7) ? DashPen : blackPen;
-                    g.DrawLine(pen, sx, 0, sx, newHeight);
+                    for (int x = 0; x < original.Width; x++)
+                    {
+                        int sx = (x + 1) * GridSize - 1;
+                        Pen pen = (x % 8 == 7) ? dashPen : blackPen;
+                        g.DrawLine(pen, sx, 0, sx, newHeight);
+                    }
+                    for (int y = 0; y < original.Height; y++)
+                    {
+                        int sy = (y + 1) * GridSize - 1;
+                        Pen pen = (y % 8 == 7) ? dashPen : blackPen;
+                        g.DrawLine(pen, 0, sy, newWidth, sy);
+                    }
                 }
-                for (int y = 0; y < original.Height; y++)
+#if false
+                // 赤枠（4辺を個別に）
+                using (var red = new Pen(Color.Red, 1))
                 {
-                    int sy = y * GridSize + GridSize - 1;
-                    Pen pen = (y % 8 == 7) ? DashPen : blackPen;
-                    g.DrawLine(pen, 0, sy, newWidth, sy);
+                    g.DrawLine(red, 0, 0, newWidth - 1, 0);
+                    g.DrawLine(red, newWidth - 1, 0, newWidth - 1, newHeight - 1);
+                    g.DrawLine(red, newWidth - 1, newHeight - 1, 0, newHeight - 1);
+                    g.DrawLine(red, 0, newHeight - 1, 0, 0);
                 }
-                // リソース開放
-                blackPen.Dispose();
-                DashPen.Dispose();
+#endif
             }
 
             // PictureBox に表示
