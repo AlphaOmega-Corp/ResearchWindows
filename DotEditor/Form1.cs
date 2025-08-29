@@ -130,10 +130,10 @@
         private void DrawDot(int x, int y)
         {
             if (pictureBox1.Image == null) return;
-            x /= GridSize;
-            y /= GridSize;
             if (x >= 0 && x < pictureBox1.Image.Width && y >= 0 && y < pictureBox1.Image.Height)
             {
+                x /= GridSize;
+                y /= GridSize;
                 using (var brush = new SolidBrush(currentColor))
                 {
                     var g = pictureBox1.CreateGraphics();
