@@ -114,6 +114,8 @@
             // openFileDialog1
             // 
             openFileDialog1.FileName = "openFileDialog1";
+            openFileDialog1.Filter = "画像ファイル|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tif;*.tiff;*.webp|すべてのファイル|*.*";
+            openFileDialog1.Title = "画像を選択";
             // 
             // statusStrip1
             // 
