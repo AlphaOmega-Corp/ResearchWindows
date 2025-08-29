@@ -52,7 +52,7 @@
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 24);
             panel1.Name = "panel1";
-            panel1.Size = new Size(800, 404);
+            panel1.Size = new Size(624, 395);
             panel1.TabIndex = 0;
             panel1.Resize += panel1_Resize;
             // 
@@ -60,7 +60,7 @@
             // 
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(800, 426);
+            pictureBox1.Size = new Size(100, 50);
             pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -73,7 +73,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { FilesToolStripMenuItem, DisplayToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.Size = new Size(624, 24);
             menuStrip1.TabIndex = 1;
             // 
             // FilesToolStripMenuItem
@@ -107,7 +107,7 @@
             // ColorDialogToolStripMenuItem
             // 
             ColorDialogToolStripMenuItem.Name = "ColorDialogToolStripMenuItem";
-            ColorDialogToolStripMenuItem.Size = new Size(180, 22);
+            ColorDialogToolStripMenuItem.Size = new Size(101, 22);
             ColorDialogToolStripMenuItem.Text = "色(&C)";
             ColorDialogToolStripMenuItem.Click += ColorDialogToolStripMenuItem_Click;
             // 
@@ -118,9 +118,9 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
-            statusStrip1.Location = new Point(0, 428);
+            statusStrip1.Location = new Point(0, 419);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(800, 22);
+            statusStrip1.Size = new Size(624, 22);
             statusStrip1.TabIndex = 1;
             // 
             // toolStripStatusLabel1
@@ -133,7 +133,7 @@
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(624, 441);
             Controls.Add(panel1);
             Controls.Add(menuStrip1);
             Controls.Add(statusStrip1);
