@@ -6,7 +6,8 @@ Windows アプリの開発に関する調査
 
 
 # ColorReductionTool
-
+画面のスクリーンショットを取った後、ペースとすれば、ファイルのサイズを少なくくするために減色できるツールです。
+あまり大きな画像は容量が大きくなりますので画像サイズをリサイズする仕組みも用意しています。
 
 ## ImageSharp を使う
 1. ソリューションエクスプローラーでプロジェクトを右クリックし、「NuGet パッケージの管理」を選択
@@ -27,3 +28,8 @@ ImageSharp に 図形描画やパス操作の機能を追加するするにはSi
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.6" />
   </ItemGroup>
 ```
+
+# DotEditor
+画像をドット単位で描画出来るツールを作りました。
+
+
