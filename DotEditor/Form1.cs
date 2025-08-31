@@ -5,6 +5,7 @@
         private int GridSize = 4;
         private Color currentColor = Color.White;
         private Bitmap editBitmap;
+        private Bitmap canvasBitmap;
 
         public Form1()
         {
@@ -72,7 +73,7 @@
         private void LoadImage(string FullPathFileName)
         {
             // 元画像を読み込み
-            string FileName = Path.GetFileNameWithoutExtension(FullPathFileName);
+            string FileName = Path.GetFileName(FullPathFileName);
             Text = $"{FileName} - Dot Editor";
             Image img = Image.FromFile(FullPathFileName);
             editBitmap = new Bitmap(img);
@@ -96,8 +97,8 @@
                 if (need <= 0 || need > (1L << 31)) // アプリ方針で閾値調整
                     throw new ArgumentException("Requested bitmap is too large.");
 
-                Bitmap enlarged = new Bitmap(newWidth, newHeight);
-                using (Graphics g = Graphics.FromImage(enlarged))
+                canvasBitmap = new Bitmap(newWidth, newHeight);
+                using (Graphics g = Graphics.FromImage(canvasBitmap))
                 {
                     // 拡大画像を作成
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -144,7 +145,7 @@
                 }
 
                 // PictureBox に表示
-                pictureBox1.Image = enlarged;
+                pictureBox1.Image = canvasBitmap;
 
                 CenterPictureBox();
             }
@@ -193,16 +194,18 @@
         }
         private void DrawDot(int x, int y)
         {
-            if (pictureBox1.Image == null) return;
-            if (x >= 0 && x < pictureBox1.Image.Width && y >= 0 && y < pictureBox1.Image.Height)
+            if (canvasBitmap == null) return;
+            if (x >= 0 && x < canvasBitmap.Width && y >= 0 && y < canvasBitmap.Height)
             {
                 x /= GridSize;
                 y /= GridSize;
+                using (Graphics g = Graphics.FromImage(canvasBitmap))
                 using (var brush = new SolidBrush(currentColor))
                 {
-                    var g = pictureBox1.CreateGraphics();
                     g.FillRectangle(brush, x * GridSize, y * GridSize, GridSize - 1, GridSize - 1);
                 }
+                // PictureBox に表示
+                pictureBox1.Image = canvasBitmap;
             }
         }
         private Color GetPixelColor(int x, int y)
