@@ -2,8 +2,9 @@
 {
     public partial class Form1 : Form
     {
-        private const int GridSize = 8;
+        private int GridSize = 4;
         private Color currentColor = Color.White;
+        private Image originalImage;
 
         public Form1()
         {
@@ -16,6 +17,18 @@
             if (Result == DialogResult.OK)
             {
                 LoadImage(openFileDialog1.FileName);
+            }
+        }
+
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (originalImage != null)
+            {
+                DialogResult Result = saveFileDialog.ShowDialog();
+                if (Result == DialogResult.OK)
+                {
+                    originalImage.Save(saveFileDialog.FileName);
+                }
             }
         }
 
@@ -58,39 +71,63 @@
         private void LoadImage(string FileName)
         {
             // 元画像を読み込み
-            Image original = Image.FromFile(FileName);
+            Text = $"{FileName} - Dot Editor";
+            originalImage = Image.FromFile(FileName);
+            DrawImage();
+        }
 
-            // 拡大倍率
-            int newWidth = (int)(original.Width * GridSize);
-            int newHeight = (int)(original.Height * GridSize);
-
-            Bitmap enlarged = new Bitmap(newWidth, newHeight);
-            using (Graphics g = Graphics.FromImage(enlarged))
+        private void DrawImage()
+        {
+            if (originalImage == null) return;
+            try
             {
-                // 拡大画像を作成
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-                g.DrawImage(original, 0, 0, newWidth, newHeight);
+                // 拡大倍率
+                int newWidth = (int)(originalImage.Width * GridSize);
+                int newHeight = (int)(originalImage.Height * GridSize);
 
-                // 線描画に切替
-                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Default;
-                // Grid Line
-                using (var blackPen = new Pen(Color.Black, 1))
-                using (var dashPen = new Pen(Color.White, 1) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
+                if (newWidth <= 0 || newHeight <= 0)
+                    throw new ArgumentOutOfRangeException("width/height must be positive.");
+
+                const int bpp = 4;
+                long need = (long)newWidth * newHeight * bpp;
+                if (need <= 0 || need > (1L << 31)) // アプリ方針で閾値調整
+                    throw new ArgumentException("Requested bitmap is too large.");
+
+                Bitmap enlarged = new Bitmap(newWidth, newHeight);
+                using (Graphics g = Graphics.FromImage(enlarged))
                 {
-                    for (int x = 0; x < original.Width; x++)
+                    // 拡大画像を作成
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+                    g.DrawImage(originalImage, 0, 0, newWidth, newHeight);
+
+                    // 線描画に切替
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Default;
+                    // Grid Line
+                    using (var blackPen = new Pen(Color.Black, 1))
+                    using (var dashPen = new Pen(Color.White, 1) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
                     {
-                        int sx = (x + 1) * GridSize - 1;
-                        Pen pen = (x % 8 == 7) ? dashPen : blackPen;
-                        g.DrawLine(pen, sx, 0, sx, newHeight);
+                        for (int x = 0; x < originalImage.Width; x++)
+                        {
+                            int sx = (x + 1) * GridSize - 1;
+                            bool DashFlag = (x % 8 == 7);
+                            if (GridSize >= 3 || DashFlag)
+                            {
+                                Pen pen = DashFlag ? dashPen : blackPen;
+                                g.DrawLine(pen, sx, 0, sx, newHeight);
+                            }
+                        }
+                        for (int y = 0; y < originalImage.Height; y++)
+                        {
+                            int sy = (y + 1) * GridSize - 1;
+                            bool DashFlag = (y % 8 == 7);
+                            if (GridSize >= 3 || DashFlag)
+                            {
+                                Pen pen = DashFlag ? dashPen : blackPen;
+                                g.DrawLine(pen, 0, sy, newWidth, sy);
+                            }
+                        }
                     }
-                    for (int y = 0; y < original.Height; y++)
-                    {
-                        int sy = (y + 1) * GridSize - 1;
-                        Pen pen = (y % 8 == 7) ? dashPen : blackPen;
-                        g.DrawLine(pen, 0, sy, newWidth, sy);
-                    }
-                }
 #if false
                 // 赤枠（4辺を個別に）
                 using (var red = new Pen(Color.Red, 1))
@@ -101,12 +138,23 @@
                     g.DrawLine(red, 0, newHeight - 1, 0, 0);
                 }
 #endif
+                }
+
+                // PictureBox に表示
+                pictureBox1.Image = enlarged;
+
+                CenterPictureBox();
             }
-
-            // PictureBox に表示
-            pictureBox1.Image = enlarged;
-
-            CenterPictureBox();
+            catch (ArgumentException)
+            {
+                MessageBox.Show("画像が大きすぎます。", "Dot Editor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (OutOfMemoryException)
+            {
+                MessageBox.Show("画像が大きすぎます。", "Dot Editor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -171,5 +219,28 @@
                     currentColor = dlg.Color;
             }
         }
+
+#if false
+        private void ZoomComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Dictionary<int, int> ZoomDics = new()
+            {
+                { 0, 1 }, // 　等倍
+                { 1, 2 }, // 　２倍
+                { 2, 3 }, // 　３倍
+                { 3, 4 }, // 　４倍
+                { 4, 6 }, // 　６倍
+                { 5, 8 }, // 　８倍
+                { 6, 16 },// １６倍
+                { 7, 32 },// ３２倍
+            };
+            if (ZoomDics.TryGetValue(ZoomComboBox.SelectedIndex, out var ZoomValue))
+            {
+                GridSize = ZoomValue;
+                DrawImage();
+            }
+        }
+#endif
+
     }
 }

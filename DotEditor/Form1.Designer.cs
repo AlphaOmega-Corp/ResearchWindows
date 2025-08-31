@@ -32,13 +32,16 @@
             pictureBox1 = new PictureBox();
             menuStrip1 = new MenuStrip();
             FilesToolStripMenuItem = new ToolStripMenuItem();
+            NewToolStripMenuItem = new ToolStripMenuItem();
             OpenToolStripMenuItem = new ToolStripMenuItem();
+            SaveAsToolStripMenuItem = new ToolStripMenuItem();
             ExitToolStripMenuItem = new ToolStripMenuItem();
             DisplayToolStripMenuItem = new ToolStripMenuItem();
             ColorDialogToolStripMenuItem = new ToolStripMenuItem();
             openFileDialog1 = new OpenFileDialog();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            saveFileDialog = new SaveFileDialog();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
@@ -78,22 +81,35 @@
             // 
             // FilesToolStripMenuItem
             // 
-            FilesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenToolStripMenuItem, ExitToolStripMenuItem });
+            FilesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { NewToolStripMenuItem, OpenToolStripMenuItem, SaveAsToolStripMenuItem, ExitToolStripMenuItem });
             FilesToolStripMenuItem.Name = "FilesToolStripMenuItem";
             FilesToolStripMenuItem.Size = new Size(67, 20);
             FilesToolStripMenuItem.Text = "ファイル(&F)";
             // 
+            // NewToolStripMenuItem
+            // 
+            NewToolStripMenuItem.Name = "NewToolStripMenuItem";
+            NewToolStripMenuItem.Size = new Size(186, 22);
+            NewToolStripMenuItem.Text = "新規作成(&N)...";
+            // 
             // OpenToolStripMenuItem
             // 
             OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            OpenToolStripMenuItem.Size = new Size(119, 22);
+            OpenToolStripMenuItem.Size = new Size(186, 22);
             OpenToolStripMenuItem.Text = "開く(&O)...";
             OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
+            // 
+            // SaveAsToolStripMenuItem
+            // 
+            SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
+            SaveAsToolStripMenuItem.Size = new Size(186, 22);
+            SaveAsToolStripMenuItem.Text = "名前を付けて保存(&A)...";
+            SaveAsToolStripMenuItem.Click += SaveAsToolStripMenuItem_Click;
             // 
             // ExitToolStripMenuItem
             // 
             ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            ExitToolStripMenuItem.Size = new Size(119, 22);
+            ExitToolStripMenuItem.Size = new Size(186, 22);
             ExitToolStripMenuItem.Text = "終了(&E)";
             ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
@@ -141,7 +157,7 @@
             Controls.Add(statusStrip1);
             MainMenuStrip = menuStrip1;
             Name = "Form1";
-            Text = "ドットエディタ";
+            Text = "Dot Editor";
             DragDrop += Form1_DragDrop;
             DragEnter += Form1_DragEnter;
             panel1.ResumeLayout(false);
@@ -160,13 +176,16 @@
         private Panel panel1;
         private PictureBox pictureBox1;
         private MenuStrip menuStrip1;
+        private ToolStripMenuItem NewToolStripMenuItem;
         private ToolStripMenuItem FilesToolStripMenuItem;
         private ToolStripMenuItem OpenToolStripMenuItem;
+        private ToolStripMenuItem SaveAsToolStripMenuItem;
         private ToolStripMenuItem ExitToolStripMenuItem;
         private OpenFileDialog openFileDialog1;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
         private ToolStripMenuItem DisplayToolStripMenuItem;
         private ToolStripMenuItem ColorDialogToolStripMenuItem;
+        private SaveFileDialog saveFileDialog;
     }
 }
