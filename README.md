@@ -1,35 +1,9 @@
 # ResearchWindows
-Windows アプリの開発に関する調査
+Windows アプリの開発に関する調査やプロトタイプ制作
 
+<link rel="stylesheet" href="style.css" />
 
-# Direct2D
-
-
-# ColorReductionTool
-画面のスクリーンショットを取った後、ペースとすれば、ファイルのサイズを少なくくするために減色できるツールです。
-あまり大きな画像は容量が大きくなりますので画像サイズをリサイズする仕組みも用意しています。
-
-## ImageSharp を使う
-1. ソリューションエクスプローラーでプロジェクトを右クリックし、「NuGet パッケージの管理」を選択
-1.「参照」タブで SixLabors.ImageSharp を検索
-1.「インストール」ボタンをクリック
-
-## ImageSharp に 図形描画やパス操作をしたい
-ImageSharp に 図形描画やパス操作の機能を追加するするにはSixLabors.ImageSharp.Drawing パッケージの追加が必要。
-
-1. ツールバーのプロジェクト(P)>NuGetパッケージの管理を選択。
-1. 左カラムのオンラインを選択したのち、SixLabors.ImageSharp.Drawingを入力。
-1. SixLabors.ImageSharp.Drawing 2.1.6をインストール
-
-### ColorReductionTool.csproj
-```xml
-  <ItemGroup>
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.10" />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.6" />
-  </ItemGroup>
-```
-
-# DotEditor
-画像をドット単位で描画出来るツールを作りました。
-
+* [Direct2Dテスト](Direct2D/README.md)
+* [画像減色ツール](ColorReductionTool/README.md)
+* [ドットエディタ](DotEditor/README.md)
 
