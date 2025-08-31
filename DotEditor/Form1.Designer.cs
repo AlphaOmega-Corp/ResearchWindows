@@ -59,9 +59,9 @@
             panel1.BackColor = SystemColors.ControlDark;
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(0, 24);
+            panel1.Location = new Point(0, 75);
             panel1.Name = "panel1";
-            panel1.Size = new Size(624, 395);
+            panel1.Size = new Size(624, 344);
             panel1.TabIndex = 0;
             panel1.Resize += panel1_Resize;
             // 
@@ -159,6 +159,7 @@
             // 
             // panel2
             // 
+            panel2.BackColor = SystemColors.ControlLight;
             panel2.Controls.Add(ColorSelectButton);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(ZoomComboBox);
@@ -172,9 +173,9 @@
             // 
             ColorSelectButton.Location = new Point(163, 12);
             ColorSelectButton.Name = "ColorSelectButton";
-            ColorSelectButton.Size = new Size(75, 23);
+            ColorSelectButton.Size = new Size(100, 23);
             ColorSelectButton.TabIndex = 2;
-            ColorSelectButton.Text = "色選択";
+            ColorSelectButton.Text = "色の選択...";
             ColorSelectButton.UseVisualStyleBackColor = true;
             ColorSelectButton.Click += ColorSelectButton_Click;
             // 

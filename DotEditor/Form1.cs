@@ -4,7 +4,7 @@
     {
         private int GridSize = 4;
         private Color currentColor = Color.White;
-        private Image originalImage;
+        private Bitmap editBitmap;
 
         public Form1()
         {
@@ -23,12 +23,12 @@
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (originalImage != null)
+            if (editBitmap != null)
             {
                 DialogResult Result = saveFileDialog1.ShowDialog();
                 if (Result == DialogResult.OK)
                 {
-                    originalImage.Save(saveFileDialog1.FileName);
+                    editBitmap.Save(saveFileDialog1.FileName);
                 }
             }
         }
@@ -47,7 +47,7 @@
 
         private void panel1_Resize(object sender, EventArgs e)
         {
-            CenterPictureBox();
+            DrawImage();
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
@@ -69,22 +69,24 @@
                 e.Effect = !e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.None : DragDropEffects.All;
             }
         }
-        private void LoadImage(string FileName)
+        private void LoadImage(string FullPathFileName)
         {
             // 元画像を読み込み
+            string FileName = Path.GetFileNameWithoutExtension(FullPathFileName);
             Text = $"{FileName} - Dot Editor";
-            originalImage = Image.FromFile(FileName);
+            Image img = Image.FromFile(FullPathFileName);
+            editBitmap = new Bitmap(img);
             DrawImage();
         }
 
         private void DrawImage()
         {
-            if (originalImage == null) return;
+            if (editBitmap == null) return;
             try
             {
                 // 拡大倍率
-                int newWidth = (int)(originalImage.Width * GridSize);
-                int newHeight = (int)(originalImage.Height * GridSize);
+                int newWidth = (int)(editBitmap.Width * GridSize);
+                int newHeight = (int)(editBitmap.Height * GridSize);
 
                 if (newWidth <= 0 || newHeight <= 0)
                     throw new ArgumentOutOfRangeException("width/height must be positive.");
@@ -100,31 +102,31 @@
                     // 拡大画像を作成
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                     g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-                    g.DrawImage(originalImage, 0, 0, newWidth, newHeight);
+                    g.DrawImage(editBitmap, 0, 0, newWidth, newHeight);
 
                     // 線描画に切替
                     g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Default;
                     // Grid Line
                     using (var blackPen = new Pen(Color.Black, 1))
-                    using (var dashPen = new Pen(Color.White, 1) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
+                    using (var dotPen = new Pen(Color.White, 1) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dot })
                     {
-                        for (int x = 0; x < originalImage.Width; x++)
+                        for (int x = 0; x < editBitmap.Width; x++)
                         {
                             int sx = (x + 1) * GridSize - 1;
                             bool DashFlag = (x % 8 == 7);
                             if (GridSize >= 3 || DashFlag)
                             {
-                                Pen pen = DashFlag ? dashPen : blackPen;
+                                Pen pen = DashFlag ? dotPen : blackPen;
                                 g.DrawLine(pen, sx, 0, sx, newHeight);
                             }
                         }
-                        for (int y = 0; y < originalImage.Height; y++)
+                        for (int y = 0; y < editBitmap.Height; y++)
                         {
                             int sy = (y + 1) * GridSize - 1;
                             bool DashFlag = (y % 8 == 7);
                             if (GridSize >= 3 || DashFlag)
                             {
-                                Pen pen = DashFlag ? dashPen : blackPen;
+                                Pen pen = DashFlag ? dotPen : blackPen;
                                 g.DrawLine(pen, 0, sy, newWidth, sy);
                             }
                         }
@@ -164,6 +166,7 @@
             {
                 // 左ボタンが押されているときの処理をここに記述
                 DrawDot(e.X, e.Y);
+                SetPixelColor(e.X, e.Y, currentColor);
             }
         }
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
@@ -185,6 +188,7 @@
             {
                 // 左ボタンが押されているときの処理をここに記述
                 DrawDot(e.X, e.Y);
+                SetPixelColor(e.X, e.Y, currentColor);
             }
         }
         private void DrawDot(int x, int y)
@@ -203,13 +207,24 @@
         }
         private Color GetPixelColor(int x, int y)
         {
-            if (pictureBox1.Image == null) return Color.Empty;
-            if (x >= 0 && x < pictureBox1.Image.Width && y >= 0 && y < pictureBox1.Image.Height)
+            if (editBitmap == null) return Color.Empty;
+            x /= GridSize;
+            y /= GridSize;
+            if (x >= 0 && x < editBitmap.Width && y >= 0 && y < editBitmap.Height)
             {
-                Bitmap bitmap = (Bitmap)pictureBox1.Image;
-                return bitmap.GetPixel(x, y);
+                return editBitmap.GetPixel(x, y);
             }
             return Color.Empty;
+        }
+        private void SetPixelColor(int x, int y, Color clr)
+        {
+            if (editBitmap == null) return;
+            x /= GridSize;
+            y /= GridSize;
+            if (x >= 0 && x < editBitmap.Width && y >= 0 && y < editBitmap.Height)
+            {
+                editBitmap.SetPixel(x, y, currentColor);
+            }
         }
 
         private void ColorDialogToolStripMenuItem_Click(object sender, EventArgs e)
