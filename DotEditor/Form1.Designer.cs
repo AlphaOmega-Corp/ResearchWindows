@@ -41,16 +41,22 @@
             openFileDialog1 = new OpenFileDialog();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
-            saveFileDialog = new SaveFileDialog();
+            saveFileDialog1 = new SaveFileDialog();
+            panel2 = new Panel();
+            ColorSelectButton = new Button();
+            label1 = new Label();
+            ZoomComboBox = new ComboBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.AutoScroll = true;
+            panel1.BackColor = SystemColors.ControlDark;
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 24);
@@ -146,6 +152,52 @@
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             toolStripStatusLabel1.Size = new Size(0, 17);
             // 
+            // saveFileDialog1
+            // 
+            saveFileDialog1.Filter = "画像ファイル|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tif;*.tiff;*.webp|すべてのファイル|*.*";
+            saveFileDialog1.Title = "画像を選択";
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(ColorSelectButton);
+            panel2.Controls.Add(label1);
+            panel2.Controls.Add(ZoomComboBox);
+            panel2.Dock = DockStyle.Top;
+            panel2.Location = new Point(0, 24);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(624, 51);
+            panel2.TabIndex = 1;
+            // 
+            // ColorSelectButton
+            // 
+            ColorSelectButton.Location = new Point(163, 12);
+            ColorSelectButton.Name = "ColorSelectButton";
+            ColorSelectButton.Size = new Size(75, 23);
+            ColorSelectButton.TabIndex = 2;
+            ColorSelectButton.Text = "色選択";
+            ColorSelectButton.UseVisualStyleBackColor = true;
+            ColorSelectButton.Click += ColorSelectButton_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(4, 16);
+            label1.Name = "label1";
+            label1.Size = new Size(43, 15);
+            label1.TabIndex = 1;
+            label1.Text = "拡大率";
+            // 
+            // ZoomComboBox
+            // 
+            ZoomComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            ZoomComboBox.FormattingEnabled = true;
+            ZoomComboBox.Items.AddRange(new object[] { "　等倍", "　２倍", "　３倍", "　４倍", "　６倍", "　８倍", "１６倍", "３２倍" });
+            ZoomComboBox.Location = new Point(53, 13);
+            ZoomComboBox.Name = "ZoomComboBox";
+            ZoomComboBox.Size = new Size(83, 23);
+            ZoomComboBox.TabIndex = 0;
+            ZoomComboBox.SelectedIndexChanged += ZoomComboBox_SelectedIndexChanged;
+            // 
             // Form1
             // 
             AllowDrop = true;
@@ -153,6 +205,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(624, 441);
             Controls.Add(panel1);
+            Controls.Add(panel2);
             Controls.Add(menuStrip1);
             Controls.Add(statusStrip1);
             MainMenuStrip = menuStrip1;
@@ -167,6 +220,8 @@
             menuStrip1.PerformLayout();
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -186,6 +241,10 @@
         private ToolStripStatusLabel toolStripStatusLabel1;
         private ToolStripMenuItem DisplayToolStripMenuItem;
         private ToolStripMenuItem ColorDialogToolStripMenuItem;
-        private SaveFileDialog saveFileDialog;
+        private SaveFileDialog saveFileDialog1;
+        private Panel panel2;
+        private Label label1;
+        private ComboBox ZoomComboBox;
+        private Button ColorSelectButton;
     }
 }

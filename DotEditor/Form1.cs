@@ -9,6 +9,7 @@
         public Form1()
         {
             InitializeComponent();
+            ZoomComboBox.SelectedIndex = 3;
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -24,10 +25,10 @@
         {
             if (originalImage != null)
             {
-                DialogResult Result = saveFileDialog.ShowDialog();
+                DialogResult Result = saveFileDialog1.ShowDialog();
                 if (Result == DialogResult.OK)
                 {
-                    originalImage.Save(saveFileDialog.FileName);
+                    originalImage.Save(saveFileDialog1.FileName);
                 }
             }
         }
@@ -220,7 +221,11 @@
             }
         }
 
-#if false
+        private void ColorSelectButton_Click(object sender, EventArgs e)
+        {
+            ColorDialogToolStripMenuItem_Click(sender, e);
+        }
+
         private void ZoomComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Dictionary<int, int> ZoomDics = new()
@@ -240,7 +245,6 @@
                 DrawImage();
             }
         }
-#endif
 
     }
 }
