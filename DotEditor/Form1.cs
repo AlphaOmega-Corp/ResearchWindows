@@ -1,4 +1,6 @@
-﻿namespace DotEditor
+﻿using System.Diagnostics;
+
+namespace DotEditor
 {
     public partial class Form1 : Form
     {
@@ -61,12 +63,21 @@
             int x = (panel1.ClientSize.Width - pictureBox1.Width) / 2;
             int y = (panel1.ClientSize.Height - pictureBox1.Height) / 2;
             Point center = new Point(Math.Max(0, x), Math.Max(0, y));
-            pictureBox1.Location = center;
+            if( x>=0 || y>=0)
+            {
+                Debug.WriteLine($"x: {x} y: {y}");
+                Debug.WriteLine($"center: {center}");
+                Debug.WriteLine($"panel1.ClientSize: {panel1.ClientSize}");
+                Debug.WriteLine($"pictureBox1.Location: {pictureBox1.Location}");
+                Debug.WriteLine($"pictureBox1.Width: {pictureBox1.Width} pictureBox1.Height:{pictureBox1.Height}");
+                // スクロール位置を復元
+                panel1.AutoScrollPosition = new Point(0, 0);
+                pictureBox1.Location = center;
+            }
         }
 
         private void panel1_Resize(object sender, EventArgs e)
         {
-            DrawImage();
             CenterPictureBox();
         }
 
