@@ -192,7 +192,6 @@
             // 
             ZoomComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             ZoomComboBox.FormattingEnabled = true;
-            ZoomComboBox.Items.AddRange(new object[] { "　等倍", "　２倍", "　３倍", "　４倍", "　６倍", "　８倍", "１６倍", "３２倍" });
             ZoomComboBox.Location = new Point(53, 13);
             ZoomComboBox.Name = "ZoomComboBox";
             ZoomComboBox.Size = new Size(83, 23);

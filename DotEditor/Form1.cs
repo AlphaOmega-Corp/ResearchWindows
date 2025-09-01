@@ -2,6 +2,20 @@
 {
     public partial class Form1 : Form
     {
+        static Dictionary<int, (int value, string name)> ZoomDics = new()
+            {
+                { 0, (1 ,"　等倍")}, //　等倍
+                { 1, (2 ,"　２倍")}, //　２倍
+                { 2, (3 ,"　３倍")}, //　３倍
+                { 3, (4 ,"　４倍")}, //　４倍
+                { 4, (6 ,"　６倍")}, //　６倍
+                { 5, (8 ,"　８倍")}, //　８倍
+                { 6, (12,"１２倍")}, //１２倍
+                { 7, (16,"１６倍")},// １６倍
+                { 8, (24,"２４倍")},// ２４倍
+                { 9, (32,"３２倍")},// ３２倍
+            };
+
         private int GridSize = 4;
         private Color currentColor = Color.White;
         private Bitmap editBitmap;
@@ -10,6 +24,10 @@
         public Form1()
         {
             InitializeComponent();
+            foreach(var item in ZoomDics)
+            {
+                ZoomComboBox.Items.Add(item.Value.name);
+            }
             ZoomComboBox.SelectedIndex = 3;
         }
 
@@ -49,6 +67,7 @@
         private void panel1_Resize(object sender, EventArgs e)
         {
             DrawImage();
+            CenterPictureBox();
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
@@ -78,6 +97,7 @@
             Image img = Image.FromFile(FullPathFileName);
             editBitmap = new Bitmap(img);
             DrawImage();
+            CenterPictureBox();
         }
 
         private void DrawImage()
@@ -146,8 +166,6 @@
 
                 // PictureBox に表示
                 pictureBox1.Image = canvasBitmap;
-
-                CenterPictureBox();
             }
             catch (ArgumentException)
             {
@@ -246,23 +264,15 @@
 
         private void ZoomComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Dictionary<int, int> ZoomDics = new()
+            if (ZoomDics.TryGetValue(ZoomComboBox.SelectedIndex, out var Zoom))
             {
-                { 0, 1 }, // 　等倍
-                { 1, 2 }, // 　２倍
-                { 2, 3 }, // 　３倍
-                { 3, 4 }, // 　４倍
-                { 4, 6 }, // 　６倍
-                { 5, 8 }, // 　８倍
-                { 6, 16 },// １６倍
-                { 7, 32 },// ３２倍
-            };
-            if (ZoomDics.TryGetValue(ZoomComboBox.SelectedIndex, out var ZoomValue))
-            {
-                GridSize = ZoomValue;
-                DrawImage();
+                if (GridSize != Zoom.value)
+                {
+                    GridSize = Zoom.value;
+                    DrawImage();
+                    CenterPictureBox();
+                }
             }
         }
-
     }
 }
