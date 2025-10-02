@@ -76,6 +76,7 @@
             pictureBox1.MouseClick += pictureBox1_MouseClick;
             pictureBox1.MouseDown += pictureBox1_MouseDown;
             pictureBox1.MouseMove += pictureBox1_MouseMove;
+            pictureBox1.MouseUp += pictureBox1_MouseUp;
             // 
             // menuStrip1
             // 
@@ -211,6 +212,7 @@
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Dot Editor";
+            FormClosing += Form1_FormClosing;
             DragDrop += Form1_DragDrop;
             DragEnter += Form1_DragEnter;
             panel1.ResumeLayout(false);

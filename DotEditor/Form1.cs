@@ -22,11 +22,13 @@ namespace DotEditor
         private Color currentColor = Color.White;
         private Bitmap editBitmap;
         private Bitmap canvasBitmap;
+        private bool dartyFlag = false;
+        private bool MouseDownStartFlag = false;
 
         public Form1()
         {
             InitializeComponent();
-            foreach(var item in ZoomDics)
+            foreach (var item in ZoomDics)
             {
                 ZoomComboBox.Items.Add(item.Value.name);
             }
@@ -63,7 +65,7 @@ namespace DotEditor
             int x = (panel1.ClientSize.Width - pictureBox1.Width) / 2;
             int y = (panel1.ClientSize.Height - pictureBox1.Height) / 2;
             Point center = new Point(Math.Max(0, x), Math.Max(0, y));
-            if( x>=0 || y>=0)
+            if (x >= 0 || y >= 0)
             {
                 Debug.WriteLine($"x: {x} y: {y}");
                 Debug.WriteLine($"center: {center}");
@@ -192,6 +194,7 @@ namespace DotEditor
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
+            MouseDownStartFlag = true;
             if (e.Button == MouseButtons.Left)
             {
                 // 左ボタンが押されているときの処理をここに記述
@@ -199,6 +202,11 @@ namespace DotEditor
                 SetPixelColor(e.X, e.Y, currentColor);
             }
         }
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            MouseDownStartFlag = false;
+        }
+
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -214,6 +222,8 @@ namespace DotEditor
         }
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
+            if (MouseDownStartFlag == false) return;
+
             if (e.Button == MouseButtons.Left)
             {
                 // 左ボタンが押されているときの処理をここに記述
@@ -256,6 +266,7 @@ namespace DotEditor
             if (x >= 0 && x < editBitmap.Width && y >= 0 && y < editBitmap.Height)
             {
                 editBitmap.SetPixel(x, y, currentColor);
+                dartyFlag = true;
             }
         }
 
@@ -282,6 +293,25 @@ namespace DotEditor
                     GridSize = Zoom.value;
                     DrawImage();
                     CenterPictureBox();
+                }
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (dartyFlag)
+            {
+                var result = MessageBox.Show("変更内容を保存しますか？", "Dot Editor", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                switch (result)
+                {
+                    case DialogResult.Yes:
+                        SaveAsToolStripMenuItem_Click(sender, e);
+                        break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                    case DialogResult.No:
+                        break;
                 }
             }
         }
